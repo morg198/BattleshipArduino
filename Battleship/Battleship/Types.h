@@ -10,6 +10,13 @@
 #define TYPES_H_
 
 
+/******************************************************************
+*	Structure used to hold the needed information for a song
+*		these are:
+*			the number of beats
+*			the notes
+*			the length of the notes(beats)
+*******************************************************************/
 struct Song
 {
 	int length;
@@ -18,6 +25,10 @@ struct Song
 	int * beats;
 };
 
+
+/******************************************************************
+*	Structure used as a timer or counter
+*******************************************************************/
 struct Timer
 {
 	unsigned long counter;

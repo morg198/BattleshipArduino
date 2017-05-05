@@ -12,12 +12,29 @@
 
 enum ALLPORTS {B = 0, C, D};
 
+/*******************************************************
+* Function used to bitshift a value into a register given
+*		the port as an int(see enum types above), the
+*			regLoc(register location), and the value to
+*			shift in
+*
+*	Ex Call: ShiftPort(C, DDC4, 1) will shift 1 into
+*			port c's 5th register bit (DDC0 is first)
+*
+*	See Word Doc Klamath ex for img showing which register
+*		connects to which pin
+*
+*	To Do:
+*			Add comment block showing registers and their
+*			corresponding pins
+*******************************************************/
 void ShiftPort(int port, int regLoc, short val)
 {
 	switch(port)
 	{
 		case B:
 		PORTB = (val << regLoc);
+		
 		break;
 		case C:
 		PORTC = (val << regLoc);
@@ -29,6 +46,8 @@ void ShiftPort(int port, int regLoc, short val)
 		break;
 	}
 }
+
+
 
 void IncrementTimer(struct Timer *t)
 {
@@ -43,6 +62,19 @@ void IncrementTimerX(int am, struct Timer *t)
 void ResetTimer(struct Timer *t)
 {
 	t->counter = 0;
+}
+
+/*******************************************************
+* Function to delay in microseconds ( 50 at a time )
+* Use for longer delays divisible by 50
+*******************************************************/
+void Delay(long t)
+{
+	while(t > 0)
+	{
+		_delay_us(50);
+		t -= 50;
+	}
 }
 
 void DelayMicro(long t)

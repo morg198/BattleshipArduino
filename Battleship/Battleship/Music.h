@@ -10,14 +10,6 @@
 #define MUSIC_H_
 #include "CommonFunctions.h"
 #include "Pitches.h"
-void Delay(long t)
-{
-	while(t > 0)
-	{
-		_delay_us(50);
-		t -= 50;
-	}
-}
 
 void PlayTone (int frequencyInHertz, long timeInMilliseconds, enum ALLPORTS port, int regLoc, int tempoOne, int tempoTwo)
 {
@@ -52,12 +44,6 @@ void PlayTone (int frequencyInHertz, long timeInMilliseconds, enum ALLPORTS port
 	Delay(50000); // a gap between notes
 	Delay(50000);
 }
-
-
-
-
-
-
 
 void CreateSong(struct Song * s)
 {
@@ -136,10 +122,6 @@ void CreateYubNub(struct Song * s)
 
 }
 
-void CreateHeartWillGoOn(struct Song * s)
-{
-	
-}
 
 void PlaySong(struct Song *s)
 {
@@ -148,14 +130,12 @@ void PlaySong(struct Song *s)
 		int noteDuration = 1000 / s->beats[i];
 		if(s->notes[i] == 0)
 		{
-			//Delay(noteDuration);
 			DelayMicro(noteDuration);
 		}
 		else
 		{
 			PlayTone(s->notes[i], noteDuration, B, DDB1, 5, 3);
 		}
-		//Delay(100000);
 	}
 
 	for(int i = 0; i < s->length; i++)
