@@ -22,17 +22,17 @@ typedef short bool;
 	
 	Pin Numbers:
 
-	Up = 2
-	Left = 4
-	Right = 6
-	Down = 5
-	Press = 3
+	Up = analog 0
+	Left = analog 1
+	Down = analog 2
+	Right = analog 3
+	Press = analog 4
 	
 */
 bool JoyStickUp()
 {
 	bool up = false;
-	if(!(PIND & (1 << PIND2)))
+	if(!(PINC & (1 << PINC0)))
 	{
 		up = true;
 	}
@@ -46,7 +46,7 @@ bool JoyStickUp()
 bool JoyStickLeft()
 {
 	bool on = false;
-	if(!(PIND & (1 << PIND4)))
+	if(!(PINC & (1 << PINC1)))
 	{
 		on = true;
 	}
@@ -60,7 +60,7 @@ bool JoyStickLeft()
 bool JoyStickDown()
 {
 	bool on = false;
-	if(!(PIND & (1 << PIND5)))
+	if(!(PINC & (1 << PINC2)))
 	{
 		on = true;
 	}
@@ -74,7 +74,7 @@ bool JoyStickDown()
 bool JoyStickRight()
 {
 	bool on = false;
-	if(!(PIND & (1 << PIND6)))
+	if(!(PINC & (1 << PINC3)))
 	{
 		on = true;
 	}
@@ -88,7 +88,7 @@ bool JoyStickRight()
 bool JoyStickPress()
 {
 	bool on = false;
-	if(!(PIND & (1 << PIND3)))
+	if(!(PINC & (1 << PINC4)))
 	{
 		on = true;
 	}

@@ -25,7 +25,8 @@ int main(void)
 	struct LedPin rgbPin;
 
 	InitializeLed(&rgbPin, B, B, B, DDB1, DDB2, DDB3);				//Initializes the rgb "pin" to hold the ports and registers of each node it is made of
-	
+
+	DDRC &= ( (0 << DDC0) | (0 << DDC1) | (0 << DDC2) | (0 << DDC3) | (0 << DDC4));		//Sets up the analog inputs to be read digitally as inputs
 
     /* Replace with your application code */
     while (1) 
