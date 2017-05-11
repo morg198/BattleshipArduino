@@ -10,6 +10,8 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <stdio.h>
+#include <stdlib.h>
+
 //#include "Music.h"
 #include "CommonFunctions.h"
 
@@ -20,6 +22,26 @@ int main(void)
 	DDRB = (1 << DDB1) | (1 << DDB2) | (1 << DDB3); //Sets the rgb pins to output
 
 	struct LedPin rgbPin;
+
+	/*****************************************************************************
+	*	Pseudo Thoughts for parallel arrays
+	*
+	*		enum possibility: NO_SHIP, SHIP_UNKNOWN, SHIP_HIT, MISS
+	*		
+	*			LedPin ledGrid[3][4] 
+	*			short gridInfo[3][4]
+	*
+	*		Possible use:
+	*			player tries hitting 1, 2
+	*				if gridInfo[1][2] ship_unknown
+	*					set gridInfor[1][2] ship_hit
+	*				.................................
+	*				.................................
+	*
+	*			Update grid colors
+	*				loop through grid info set ledgrid pin to correct color
+	*	
+	*****************************************************************************/
 
 
 	InitializeLed(&rgbPin, B, B, B, DDB1, DDB2, DDB3);				//Initializes the rgb "pin" to hold the ports and registers of each node it is made of
