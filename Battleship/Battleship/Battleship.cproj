@@ -134,6 +134,12 @@
     <Compile Include="CommonFunctions.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Joystick.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="LedPins.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>

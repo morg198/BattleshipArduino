@@ -14,14 +14,25 @@
 
 //#include "Music.h"
 #include "CommonFunctions.h"
+#include "Joystick.h"
+#include "LedPins.h"
+
+
+enum GAME_STATES {MAIN_MENU, GAME1, GAME2, GAME3, GAMEOVER};
 
 short joystickState = RELEASED;
+
+struct LedPin rgbPin;
+
+void MainMenu();
+
+int gameMode = MAIN_MENU;
 
 int main(void)
 {
 	DDRB = (1 << DDB1) | (1 << DDB2) | (1 << DDB3); //Sets the rgb pins to output
 
-	struct LedPin rgbPin;
+	
 
 	/*****************************************************************************
 	*	Pseudo Thoughts for parallel arrays
@@ -54,8 +65,33 @@ int main(void)
 
 		ReadJoystickState(&joystickState);
 
-		switch(joystickState)
+		switch(gameMode)
 		{
+			case MAIN_MENU:
+			MainMenu();
+			break;
+			case GAME1:
+			SetColor(&rgbPin, 0, 1, 0);								//Sets pin to be magenta
+			break;
+			case GAME2:
+			break;
+			case GAME3:
+			break;
+			case GAMEOVER:
+			break;
+			default:
+			break;
+		}
+
+		
+	
+    }
+}
+
+void MainMenu()
+{
+	switch(joystickState)
+	{
 		case UP:
 		SetColor(&rgbPin, 1, 0, 1);								//Sets pin to be green
 		break;
@@ -69,15 +105,13 @@ int main(void)
 		SetColor(&rgbPin, 0, 0, 1);								//Sets pin to be yellow
 		break;
 		case PRESSED:
-		SetColor(&rgbPin, 0, 1, 0);								//Sets pin to be magenta
+		
+		gameMode = GAME1;
 		break;
 		case RELEASED:
 		SetColor(&rgbPin, 0, 0, 0);		//Sets pin to be white
 		break;
 		default:
 		break;
-		}
-	
-    }
+	}
 }
-
