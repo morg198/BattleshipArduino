@@ -13,9 +13,6 @@
 
 enum ALLPORTS {B = 0, C, D};
 
-
-
-
 typedef short bool;
 #define true 1
 #define false 0
