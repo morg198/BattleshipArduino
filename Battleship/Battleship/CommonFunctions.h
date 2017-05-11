@@ -11,6 +11,7 @@
 #include "Types.h"
 
 enum ALLPORTS {B = 0, C, D};
+enum {UP, LEFT, DOWN, RIGHT, PRESSED, RELEASED};
 
 typedef short bool;
 #define true 1
@@ -97,6 +98,34 @@ bool JoyStickPress()
 		on = false;
 	}
 	return on;
+}
+
+void ReadJoystickState(int * joystickState)
+{
+	if(JoyStickUp())
+	{
+		*joystickState = UP;
+	}
+	else if(JoyStickLeft())
+	{
+		*joystickState = LEFT;
+	}
+	else if(JoyStickDown())
+	{
+		*joystickState = DOWN;
+	}
+	else if(JoyStickRight())
+	{
+		*joystickState = RIGHT;
+	}
+	else if(JoyStickPress())
+	{
+		*joystickState = PRESSED;
+	}
+	else
+	{
+		*joystickState = RELEASED;
+	}
 }
 
 struct LedPin
@@ -230,21 +259,6 @@ void ShiftPort(int port, int regLoc, short val)
 	}
 }
 
-
-void IncrementTimer(struct Timer *t)
-{
-	t->counter += 1;
-}
-
-void IncrementTimerX(int am, struct Timer *t)
-{
-	t->counter += am;
-}
-
-void ResetTimer(struct Timer *t)
-{
-	t->counter = 0;
-}
 
 /*******************************************************
 * Function to delay in microseconds ( 50 at a time )

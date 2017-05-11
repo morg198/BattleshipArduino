@@ -13,16 +13,14 @@
 //#include "Music.h"
 #include "CommonFunctions.h"
 
-void InitializeJoyStick();
-
-
-
+short joystickState = RELEASED;
 
 int main(void)
 {
 	DDRB = (1 << DDB1) | (1 << DDB2) | (1 << DDB3); //Sets the rgb pins to output
 
 	struct LedPin rgbPin;
+
 
 	InitializeLed(&rgbPin, B, B, B, DDB1, DDB2, DDB3);				//Initializes the rgb "pin" to hold the ports and registers of each node it is made of
 
@@ -32,29 +30,30 @@ int main(void)
     while (1) 
     {
 
-		if(JoyStickUp())
+		ReadJoystickState(&joystickState);
+
+		switch(joystickState)
 		{
-			SetColor(&rgbPin, 1, 0, 1);								//Sets pin to be green
-		}
-		else if(JoyStickLeft())
-		{
-			SetColor(&rgbPin, 0, 1, 1);								//Sets pin to be red
-		}
-		else if(JoyStickDown())
-		{
-			SetColor(&rgbPin, 1, 1, 0);								//Sets pin to be blue
-		}
-		else if(JoyStickRight())
-		{
-			SetColor(&rgbPin, 0, 0, 1);								//Sets pin to be yellow
-		}
-		else if(JoyStickPress())
-		{
-			SetColor(&rgbPin, 0, 1, 0);								//Sets pin to be magenta
-		}
-		else
-		{
-			SetColor(&rgbPin, 0, 0, 0);		//Sets pin to be white
+		case UP:
+		SetColor(&rgbPin, 1, 0, 1);								//Sets pin to be green
+		break;
+		case LEFT:
+		SetColor(&rgbPin, 0, 1, 1);								//Sets pin to be red
+		break;
+		case DOWN:
+		SetColor(&rgbPin, 1, 1, 0);								//Sets pin to be blue
+		break;
+		case RIGHT:
+		SetColor(&rgbPin, 0, 0, 1);								//Sets pin to be yellow
+		break;
+		case PRESSED:
+		SetColor(&rgbPin, 0, 1, 0);								//Sets pin to be magenta
+		break;
+		case RELEASED:
+		SetColor(&rgbPin, 0, 0, 0);		//Sets pin to be white
+		break;
+		default:
+		break;
 		}
 	
     }
