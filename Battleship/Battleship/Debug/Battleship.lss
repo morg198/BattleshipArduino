@@ -3,31 +3,31 @@ Battleship.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000002  00800100  0000034a  000003de  2**0
+  0 .data         00000002  00800100  0000034e  000003e2  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000034a  00000000  00000000  00000094  2**1
+  1 .text         0000034e  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          0000000e  00800102  00800102  000003e0  2**0
+  2 .bss          0000000e  00800102  00800102  000003e4  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000003e0  2**0
+  3 .comment      00000030  00000000  00000000  000003e4  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000410  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000414  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000098  00000000  00000000  00000450  2**0
+  5 .debug_aranges 000000c8  00000000  00000000  00000454  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000ecc  00000000  00000000  000004e8  2**0
+  6 .debug_info   000013aa  00000000  00000000  0000051c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 0000085e  00000000  00000000  000013b4  2**0
+  7 .debug_abbrev 000008ef  00000000  00000000  000018c6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000005c4  00000000  00000000  00001c12  2**0
+  8 .debug_line   000007ee  00000000  00000000  000021b5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000017c  00000000  00000000  000021d8  2**2
+  9 .debug_frame  000002dc  00000000  00000000  000029a4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000054a  00000000  00000000  00002354  2**0
+ 10 .debug_str    0000062c  00000000  00000000  00002c80  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000695  00000000  00000000  0000289e  2**0
+ 11 .debug_loc    00000d81  00000000  00000000  000032ac  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000088  00000000  00000000  00002f33  2**0
+ 12 .debug_ranges 000000d0  00000000  00000000  0000402d  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -72,7 +72,7 @@ Disassembly of section .text:
   74:	11 e0       	ldi	r17, 0x01	; 1
   76:	a0 e0       	ldi	r26, 0x00	; 0
   78:	b1 e0       	ldi	r27, 0x01	; 1
-  7a:	ea e4       	ldi	r30, 0x4A	; 74
+  7a:	ee e4       	ldi	r30, 0x4E	; 78
   7c:	f3 e0       	ldi	r31, 0x03	; 3
   7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
   80:	05 90       	lpm	r0, Z+
@@ -95,7 +95,7 @@ Disassembly of section .text:
   96:	b2 07       	cpc	r27, r18
   98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
   9a:	0e 94 70 01 	call	0x2e0	; 0x2e0 <main>
-  9e:	0c 94 a3 01 	jmp	0x346	; 0x346 <_exit>
+  9e:	0c 94 a5 01 	jmp	0x34a	; 0x34a <_exit>
 
 000000a2 <__bad_interrupt>:
   a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -475,86 +475,89 @@ int main(void)
 	DDRB = (1 << DDB1) | (1 << DDB2) | (1 << DDB3); //Sets the rgb pins to output
  2e0:	8e e0       	ldi	r24, 0x0E	; 14
  2e2:	84 b9       	out	0x04, r24	; 4
+	DDRD = (1 << DDD6);
+ 2e4:	80 e4       	ldi	r24, 0x40	; 64
+ 2e6:	8a b9       	out	0x0a, r24	; 10
 /*				ports and register locations, takes a pointer to the	*/
 /*				struct then all the needed values						*/
 /************************************************************************/
 void InitializeLed(struct LedPin * pin, int port1, int port2, int port3, int regLoc1, int regLoc2, int regLoc3)
 {
 	pin->ports[0] = port1;
- 2e4:	e4 e0       	ldi	r30, 0x04	; 4
- 2e6:	f1 e0       	ldi	r31, 0x01	; 1
- 2e8:	11 82       	std	Z+1, r1	; 0x01
- 2ea:	10 82       	st	Z, r1
+ 2e8:	e4 e0       	ldi	r30, 0x04	; 4
+ 2ea:	f1 e0       	ldi	r31, 0x01	; 1
+ 2ec:	11 82       	std	Z+1, r1	; 0x01
+ 2ee:	10 82       	st	Z, r1
 	pin->ports[1] = port2;
- 2ec:	13 82       	std	Z+3, r1	; 0x03
- 2ee:	12 82       	std	Z+2, r1	; 0x02
+ 2f0:	13 82       	std	Z+3, r1	; 0x03
+ 2f2:	12 82       	std	Z+2, r1	; 0x02
 	pin->ports[2] = port3;
- 2f0:	15 82       	std	Z+5, r1	; 0x05
- 2f2:	14 82       	std	Z+4, r1	; 0x04
+ 2f4:	15 82       	std	Z+5, r1	; 0x05
+ 2f6:	14 82       	std	Z+4, r1	; 0x04
 
 	pin->regLocs[0] = regLoc1;
- 2f4:	81 e0       	ldi	r24, 0x01	; 1
- 2f6:	90 e0       	ldi	r25, 0x00	; 0
- 2f8:	97 83       	std	Z+7, r25	; 0x07
- 2fa:	86 83       	std	Z+6, r24	; 0x06
+ 2f8:	81 e0       	ldi	r24, 0x01	; 1
+ 2fa:	90 e0       	ldi	r25, 0x00	; 0
+ 2fc:	97 83       	std	Z+7, r25	; 0x07
+ 2fe:	86 83       	std	Z+6, r24	; 0x06
 	pin->regLocs[1] = regLoc2;
- 2fc:	82 e0       	ldi	r24, 0x02	; 2
- 2fe:	90 e0       	ldi	r25, 0x00	; 0
- 300:	91 87       	std	Z+9, r25	; 0x09
- 302:	80 87       	std	Z+8, r24	; 0x08
+ 300:	82 e0       	ldi	r24, 0x02	; 2
+ 302:	90 e0       	ldi	r25, 0x00	; 0
+ 304:	91 87       	std	Z+9, r25	; 0x09
+ 306:	80 87       	std	Z+8, r24	; 0x08
 	pin->regLocs[2] = regLoc3;
- 304:	83 e0       	ldi	r24, 0x03	; 3
- 306:	90 e0       	ldi	r25, 0x00	; 0
- 308:	93 87       	std	Z+11, r25	; 0x0b
- 30a:	82 87       	std	Z+10, r24	; 0x0a
+ 308:	83 e0       	ldi	r24, 0x03	; 3
+ 30a:	90 e0       	ldi	r25, 0x00	; 0
+ 30c:	93 87       	std	Z+11, r25	; 0x0b
+ 30e:	82 87       	std	Z+10, r24	; 0x0a
 	*****************************************************************************/
 
 
 	InitializeLed(&rgbPin, B, B, B, DDB1, DDB2, DDB3);				//Initializes the rgb "pin" to hold the ports and registers of each node it is made of
 
 	DDRC &= ( (0 << DDC0) | (0 << DDC1) | (0 << DDC2) | (0 << DDC3) | (0 << DDC4));		//Sets up the analog inputs to be read digitally as inputs
- 30c:	87 b1       	in	r24, 0x07	; 7
- 30e:	17 b8       	out	0x07, r1	; 7
-
+ 310:	87 b1       	in	r24, 0x07	; 7
+ 312:	17 b8       	out	0x07, r1	; 7
+	//PlaySong(&s);
     /* Replace with your application code */
     while (1) 
     {
 
 		ReadJoystickState(&joystickState);
- 310:	80 e0       	ldi	r24, 0x00	; 0
- 312:	91 e0       	ldi	r25, 0x01	; 1
- 314:	0e 94 9c 00 	call	0x138	; 0x138 <ReadJoystickState>
+ 314:	80 e0       	ldi	r24, 0x00	; 0
+ 316:	91 e0       	ldi	r25, 0x01	; 1
+ 318:	0e 94 9c 00 	call	0x138	; 0x138 <ReadJoystickState>
 
 		switch(gameMode)
- 318:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <__data_end>
- 31c:	90 91 03 01 	lds	r25, 0x0103	; 0x800103 <__data_end+0x1>
- 320:	00 97       	sbiw	r24, 0x00	; 0
- 322:	19 f0       	breq	.+6      	; 0x32a <main+0x4a>
- 324:	01 97       	sbiw	r24, 0x01	; 1
- 326:	21 f0       	breq	.+8      	; 0x330 <main+0x50>
- 328:	f3 cf       	rjmp	.-26     	; 0x310 <main+0x30>
+ 31c:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <__data_end>
+ 320:	90 91 03 01 	lds	r25, 0x0103	; 0x800103 <__data_end+0x1>
+ 324:	00 97       	sbiw	r24, 0x00	; 0
+ 326:	19 f0       	breq	.+6      	; 0x32e <main+0x4e>
+ 328:	01 97       	sbiw	r24, 0x01	; 1
+ 32a:	21 f0       	breq	.+8      	; 0x334 <main+0x54>
+ 32c:	f3 cf       	rjmp	.-26     	; 0x314 <main+0x34>
 		{
 			case MAIN_MENU:
 			MainMenu();
- 32a:	0e 94 1e 01 	call	0x23c	; 0x23c <MainMenu>
+ 32e:	0e 94 1e 01 	call	0x23c	; 0x23c <MainMenu>
 			break;
- 32e:	f0 cf       	rjmp	.-32     	; 0x310 <main+0x30>
+ 332:	f0 cf       	rjmp	.-32     	; 0x314 <main+0x34>
 			case GAME1:
 			SetColor(&rgbPin, 0, 1, 0);								//Sets pin to be magenta
- 330:	20 e0       	ldi	r18, 0x00	; 0
- 332:	30 e0       	ldi	r19, 0x00	; 0
- 334:	41 e0       	ldi	r20, 0x01	; 1
- 336:	50 e0       	ldi	r21, 0x00	; 0
- 338:	60 e0       	ldi	r22, 0x00	; 0
- 33a:	70 e0       	ldi	r23, 0x00	; 0
- 33c:	84 e0       	ldi	r24, 0x04	; 4
- 33e:	91 e0       	ldi	r25, 0x01	; 1
- 340:	0e 94 eb 00 	call	0x1d6	; 0x1d6 <SetColor>
+ 334:	20 e0       	ldi	r18, 0x00	; 0
+ 336:	30 e0       	ldi	r19, 0x00	; 0
+ 338:	41 e0       	ldi	r20, 0x01	; 1
+ 33a:	50 e0       	ldi	r21, 0x00	; 0
+ 33c:	60 e0       	ldi	r22, 0x00	; 0
+ 33e:	70 e0       	ldi	r23, 0x00	; 0
+ 340:	84 e0       	ldi	r24, 0x04	; 4
+ 342:	91 e0       	ldi	r25, 0x01	; 1
+ 344:	0e 94 eb 00 	call	0x1d6	; 0x1d6 <SetColor>
 			break;
- 344:	e5 cf       	rjmp	.-54     	; 0x310 <main+0x30>
+ 348:	e5 cf       	rjmp	.-54     	; 0x314 <main+0x34>
 
-00000346 <_exit>:
- 346:	f8 94       	cli
+0000034a <_exit>:
+ 34a:	f8 94       	cli
 
-00000348 <__stop_program>:
- 348:	ff cf       	rjmp	.-2      	; 0x348 <__stop_program>
+0000034c <__stop_program>:
+ 34c:	ff cf       	rjmp	.-2      	; 0x34c <__stop_program>

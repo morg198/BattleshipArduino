@@ -27,6 +27,15 @@ int RNG(int min, int max)
 	return rand() % (max - min + 1) + min;
 }
 
+IncrementTimerX(int amount, struct Timer * t)
+{
+	t->counter += amount;
+}
+
+ResetTimer(struct Timer * t)
+{
+	t->counter = 0;
+}
 
 /*******************************************************
 * Function used to bitshift a value into a register given

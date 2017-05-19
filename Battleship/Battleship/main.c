@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//#include "Music.h"
+#include "Music.h"
 #include "CommonFunctions.h"
 #include "Joystick.h"
 #include "LedPins.h"
@@ -31,6 +31,12 @@ int gameMode = MAIN_MENU;
 int main(void)
 {
 	DDRB = (1 << DDB1) | (1 << DDB2) | (1 << DDB3); //Sets the rgb pins to output
+	DDRD = (1 << DDD6);
+
+	//struct Song s;
+
+	//CreateYubNub(&s);
+	//CreateSong(&s);
 
 	
 
@@ -58,7 +64,7 @@ int main(void)
 	InitializeLed(&rgbPin, B, B, B, DDB1, DDB2, DDB3);				//Initializes the rgb "pin" to hold the ports and registers of each node it is made of
 
 	DDRC &= ( (0 << DDC0) | (0 << DDC1) | (0 << DDC2) | (0 << DDC3) | (0 << DDC4));		//Sets up the analog inputs to be read digitally as inputs
-
+	//PlaySong(&s);
     /* Replace with your application code */
     while (1) 
     {

@@ -10,6 +10,7 @@
 #define MUSIC_H_
 #include "CommonFunctions.h"
 #include "Pitches.h"
+#include "Types.h"
 
 void PlayTone (int frequencyInHertz, long timeInMilliseconds, enum ALLPORTS port, int regLoc, int tempoOne, int tempoTwo)
 {
@@ -25,20 +26,23 @@ void PlayTone (int frequencyInHertz, long timeInMilliseconds, enum ALLPORTS port
 		ShiftPort(port, regLoc, 1);
 		while(t1.counter < delayAmount)
 		{
-			_delay_us(tempoOne);
+			//_delay_us(tempoOne);
 			//Delay(delayAmount);
-			IncrementTimerX(tempoTwo, &t1);
+			Delay(delayAmount *.5);
+			IncrementTimerX(delayAmount, &t1);
 		}
 		
 		ResetTimer(&t1);
 
 		
-		ShiftPort(port, regLoc, 0);
+		//ShiftPort(port, regLoc, 0);
+		PORTD = (0 << DDD6);
 			//Delay(delayAmount);
 		while(t1.counter < delayAmount)
 		{
-			_delay_us(tempoOne);
-			IncrementTimerX(tempoTwo, &t1);
+			//_delay_us(tempoOne);
+			Delay(delayAmount* .5);
+			IncrementTimerX(delayAmount, &t1);
 		}
 	}
 	Delay(50000); // a gap between notes
@@ -72,17 +76,17 @@ void CreateSong(struct Song * s)
 void CreateYubNub(struct Song * s)
 {
 
-	for(int i = 0; i < s.length; i++)
+	for(int i = 0; i < s->length; i++)
 	{
-		free(s.notes[i]);
-		free(s.beats[i]);
+		free(s->notes[i]);
+		free(s->beats[i]);
 	}
 
 	s->length = 41;
 
-	s->notes = (int *) calloc(s.length, sizeof(int));
+	s->notes = (int *) calloc(s->length, sizeof(int));
 
-	s->beats = (int *) calloc(s.length, sizeof(int));
+	s->beats = (int *) calloc(s->length, sizeof(int));
 
 	int YN[] = {	NOTE_C4 + NOTE_G4, NOTE_C4 + NOTE_G4, 0,
 					0, NOTE_E4, NOTE_G4, 0, 
@@ -106,7 +110,7 @@ void CreateYubNub(struct Song * s)
 
 						4, 8, 4, 4,
 						4, 4, 2,
-						2, 8, 8, 4
+						2, 8, 8, 4,
 						2, 4,
 						4, 4, 2,
 						2, 8, 8, 4,
@@ -134,7 +138,7 @@ void PlaySong(struct Song *s)
 		}
 		else
 		{
-			PlayTone(s->notes[i], noteDuration, B, DDB1, 5, 3);
+			PlayTone(s->notes[i], noteDuration, D, DDD6, 5, 3);
 		}
 	}
 

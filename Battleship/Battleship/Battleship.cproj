@@ -149,6 +149,9 @@
     <Compile Include="Pitches.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="ShiftRegisters.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Types.h">
       <SubType>compile</SubType>
     </Compile>
