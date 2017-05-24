@@ -18,8 +18,6 @@
 
 struct LedPin
 {
-	int ports[3];
-	int regLocs[3];
 	int values[3];
 };
 
