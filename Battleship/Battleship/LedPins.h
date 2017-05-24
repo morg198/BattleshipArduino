@@ -9,11 +9,18 @@
 #ifndef LEDPINS_H_
 #define LEDPINS_H_
 
+#define RED 0
+#define GREEN 1
+#define BLUE 2
+
+#define ON 0
+#define OFF 1
 
 struct LedPin
 {
 	int ports[3];
 	int regLocs[3];
+	int values[3];
 };
 
 /************************************************************************/
@@ -21,15 +28,11 @@ struct LedPin
 /*				ports and register locations, takes a pointer to the	*/
 /*				struct then all the needed values						*/
 /************************************************************************/
-void InitializeLed(struct LedPin * pin, int port1, int port2, int port3, int regLoc1, int regLoc2, int regLoc3)
+void InitializeLed(struct LedPin * pin)
 {
-	pin->ports[0] = port1;
-	pin->ports[1] = port2;
-	pin->ports[2] = port3;
-
-	pin->regLocs[0] = regLoc1;
-	pin->regLocs[1] = regLoc2;
-	pin->regLocs[2] = regLoc3;
+	pin->values[0] = OFF;
+	pin->values[1] = OFF;
+	pin->values[2] = OFF;
 }
 
 /************************************************************************/
@@ -40,20 +43,7 @@ void ClearPin(struct LedPin* pin)
 {
 	for(int i = 0; i < 3; i++)
 	{
-		switch(pin->ports[i])
-		{
-			case B:
-			PORTB &= (0 << pin->regLocs[i]);				//Ands each register of the rgb pin in port b with 0 (thus ensuring that bit will be 0)
-			break;
-			case C:
-			PORTC &= (0 << pin->regLocs[i]);				//Ands each register of the rgb pin in port c with 0 (thus ensuring that bit will be 0)
-			break;
-			case D:
-			PORTD &= (0 << pin->regLocs[i]);				//Ands each register of the rgb pin in port d with 0 (thus ensuring that bit will be 0)
-			break;
-			default:
-			break;
-		}
+		pin->values[i] = OFF;
 	}
 }
 
@@ -64,10 +54,9 @@ void ClearPin(struct LedPin* pin)
 void SetColor(struct LedPin*  lightPin, int r, int g, int b)
 {
 	_delay_ms(2);													//Delay 2 ms to show the color
-	ClearPin(lightPin);												//First we make all of the pin values that make up the rgb pin 0 so that when we or it if it is 1 it will set it to 1 if it is 0 it will stay 0
-	ShiftPort((lightPin)->ports[0], (lightPin)->regLocs[0], r);		//Shift the r value passed into this function into the register bit of the red pin
-	ShiftPort((lightPin)->ports[1], (lightPin)->regLocs[1], g);		//Shift the g value passed into this function into the register bit of the green pin
-	ShiftPort((lightPin)->ports[2], (lightPin)->regLocs[2], b);		//Shift the b value passed into this function into the register bit of the blue pin
+	lightPin->values[RED] = r;
+	lightPin->values[GREEN] = g;
+	lightPin->values[BLUE] = b;
 }
 
 

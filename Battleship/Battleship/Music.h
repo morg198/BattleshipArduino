@@ -147,8 +147,8 @@ void PlaySong(struct Song *s)
 		free(s->notes[i]);
 		free(s->beats[i]);
 	}
-	free(s->notes);
-	free(s->beats);
+	//free(s->notes);
+	//free(s->beats);
 }
 
 #endif /* MUSIC_H_ */

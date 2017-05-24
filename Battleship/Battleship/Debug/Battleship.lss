@@ -3,31 +3,29 @@ Battleship.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000002  00800100  0000034e  000003e2  2**0
+  0 .data         00000000  00800100  00800100  00000174  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000034e  00000000  00000000  00000094  2**1
+  1 .text         00000120  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          0000000e  00800102  00800102  000003e4  2**0
-                  ALLOC
-  3 .comment      00000030  00000000  00000000  000003e4  2**0
+  2 .comment      00000030  00000000  00000000  00000174  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000414  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001a4  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000c8  00000000  00000000  00000454  2**0
+  4 .debug_aranges 00000100  00000000  00000000  000001e4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000013aa  00000000  00000000  0000051c  2**0
+  5 .debug_info   00001579  00000000  00000000  000002e4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000008ef  00000000  00000000  000018c6  2**0
+  6 .debug_abbrev 0000090e  00000000  00000000  0000185d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000007ee  00000000  00000000  000021b5  2**0
+  7 .debug_line   00000956  00000000  00000000  0000216b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000002dc  00000000  00000000  000029a4  2**2
+  8 .debug_frame  00000380  00000000  00000000  00002ac4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000062c  00000000  00000000  00002c80  2**0
+  9 .debug_str    000006d9  00000000  00000000  00002e44  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000d81  00000000  00000000  000032ac  2**0
+ 10 .debug_loc    0000109d  00000000  00000000  0000351d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000d0  00000000  00000000  0000402d  2**0
+ 11 .debug_ranges 00000108  00000000  00000000  000045ba  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -72,18 +70,18 @@ Disassembly of section .text:
   74:	11 e0       	ldi	r17, 0x01	; 1
   76:	a0 e0       	ldi	r26, 0x00	; 0
   78:	b1 e0       	ldi	r27, 0x01	; 1
-  7a:	ee e4       	ldi	r30, 0x4E	; 78
-  7c:	f3 e0       	ldi	r31, 0x03	; 3
+  7a:	e0 e2       	ldi	r30, 0x20	; 32
+  7c:	f1 e0       	ldi	r31, 0x01	; 1
   7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
   80:	05 90       	lpm	r0, Z+
   82:	0d 92       	st	X+, r0
-  84:	a2 30       	cpi	r26, 0x02	; 2
+  84:	a0 30       	cpi	r26, 0x00	; 0
   86:	b1 07       	cpc	r27, r17
   88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
 
 0000008a <__do_clear_bss>:
   8a:	21 e0       	ldi	r18, 0x01	; 1
-  8c:	a2 e0       	ldi	r26, 0x02	; 2
+  8c:	a0 e0       	ldi	r26, 0x00	; 0
   8e:	b1 e0       	ldi	r27, 0x01	; 1
   90:	01 c0       	rjmp	.+2      	; 0x94 <.do_clear_bss_start>
 
@@ -91,473 +89,111 @@ Disassembly of section .text:
   92:	1d 92       	st	X+, r1
 
 00000094 <.do_clear_bss_start>:
-  94:	a0 31       	cpi	r26, 0x10	; 16
+  94:	a0 30       	cpi	r26, 0x00	; 0
   96:	b2 07       	cpc	r27, r18
   98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
-  9a:	0e 94 70 01 	call	0x2e0	; 0x2e0 <main>
-  9e:	0c 94 a5 01 	jmp	0x34a	; 0x34a <_exit>
+  9a:	0e 94 77 00 	call	0xee	; 0xee <main>
+  9e:	0c 94 8e 00 	jmp	0x11c	; 0x11c <_exit>
 
 000000a2 <__bad_interrupt>:
   a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-000000a6 <ShiftPort>:
-	pin->ports[2] = port3;
+000000a6 <InitializeRegister>:
+	ShiftPort((lightPin)->ports[2], (lightPin)->regLocs[2], b);		//Shift the b value passed into this function into the register bit of the blue pin
 
-	pin->regLocs[0] = regLoc1;
-	pin->regLocs[1] = regLoc2;
-	pin->regLocs[2] = regLoc3;
+	lightPin->values[0] = r;
+	lightPin->values[0] = g;
+	lightPin->values[0] = b;
 }
-  a6:	81 30       	cpi	r24, 0x01	; 1
-  a8:	91 05       	cpc	r25, r1
-  aa:	71 f0       	breq	.+28     	; 0xc8 <ShiftPort+0x22>
-  ac:	82 30       	cpi	r24, 0x02	; 2
-  ae:	91 05       	cpc	r25, r1
-  b0:	a1 f0       	breq	.+40     	; 0xda <ShiftPort+0x34>
-  b2:	89 2b       	or	r24, r25
-  b4:	d1 f4       	brne	.+52     	; 0xea <ShiftPort+0x44>
-  b6:	85 b1       	in	r24, 0x05	; 5
-  b8:	02 c0       	rjmp	.+4      	; 0xbe <ShiftPort+0x18>
-  ba:	44 0f       	add	r20, r20
-  bc:	55 1f       	adc	r21, r21
-  be:	6a 95       	dec	r22
-  c0:	e2 f7       	brpl	.-8      	; 0xba <ShiftPort+0x14>
-  c2:	48 2b       	or	r20, r24
-  c4:	45 b9       	out	0x05, r20	; 5
-  c6:	08 95       	ret
-  c8:	88 b1       	in	r24, 0x08	; 8
-  ca:	02 c0       	rjmp	.+4      	; 0xd0 <ShiftPort+0x2a>
-  cc:	44 0f       	add	r20, r20
-  ce:	55 1f       	adc	r21, r21
-  d0:	6a 95       	dec	r22
-  d2:	e2 f7       	brpl	.-8      	; 0xcc <ShiftPort+0x26>
-  d4:	48 2b       	or	r20, r24
-  d6:	48 b9       	out	0x08, r20	; 8
-  d8:	08 95       	ret
-  da:	8b b1       	in	r24, 0x0b	; 11
-  dc:	02 c0       	rjmp	.+4      	; 0xe2 <ShiftPort+0x3c>
-  de:	44 0f       	add	r20, r20
-  e0:	55 1f       	adc	r21, r21
-  e2:	6a 95       	dec	r22
-  e4:	e2 f7       	brpl	.-8      	; 0xde <ShiftPort+0x38>
-  e6:	48 2b       	or	r20, r24
-  e8:	4b b9       	out	0x0b, r20	; 11
-  ea:	08 95       	ret
+  a6:	84 b1       	in	r24, 0x04	; 4
+  a8:	87 60       	ori	r24, 0x07	; 7
+  aa:	84 b9       	out	0x04, r24	; 4
+  ac:	08 95       	ret
 
-000000ec <JoyStickUp>:
-  ec:	96 b1       	in	r25, 0x06	; 6
-  ee:	81 e0       	ldi	r24, 0x01	; 1
-  f0:	89 27       	eor	r24, r25
-  f2:	81 70       	andi	r24, 0x01	; 1
-  f4:	90 e0       	ldi	r25, 0x00	; 0
-  f6:	08 95       	ret
+000000ae <PulseClock>:
+  ae:	2a 9a       	sbi	0x05, 2	; 5
+  b0:	2a 98       	cbi	0x05, 2	; 5
+  b2:	08 95       	ret
 
-000000f8 <JoyStickLeft>:
-  f8:	86 b1       	in	r24, 0x06	; 6
-  fa:	86 95       	lsr	r24
-  fc:	91 e0       	ldi	r25, 0x01	; 1
-  fe:	89 27       	eor	r24, r25
- 100:	81 70       	andi	r24, 0x01	; 1
- 102:	90 e0       	ldi	r25, 0x00	; 0
- 104:	08 95       	ret
+000000b4 <LatchIn>:
+  b4:	29 9a       	sbi	0x05, 1	; 5
+  b6:	81 e0       	ldi	r24, 0x01	; 1
+  b8:	98 2f       	mov	r25, r24
+  ba:	9a 95       	dec	r25
+  bc:	f1 f7       	brne	.-4      	; 0xba <LatchIn+0x6>
+  be:	29 98       	cbi	0x05, 1	; 5
+  c0:	8a 95       	dec	r24
+  c2:	f1 f7       	brne	.-4      	; 0xc0 <LatchIn+0xc>
+  c4:	08 95       	ret
 
-00000106 <JoyStickDown>:
- 106:	86 b1       	in	r24, 0x06	; 6
- 108:	86 95       	lsr	r24
- 10a:	86 95       	lsr	r24
- 10c:	91 e0       	ldi	r25, 0x01	; 1
- 10e:	89 27       	eor	r24, r25
- 110:	81 70       	andi	r24, 0x01	; 1
- 112:	90 e0       	ldi	r25, 0x00	; 0
- 114:	08 95       	ret
+000000c6 <WriteSerialSingle>:
+  c6:	1f 93       	push	r17
+  c8:	cf 93       	push	r28
+  ca:	df 93       	push	r29
+  cc:	18 2f       	mov	r17, r24
+  ce:	c8 e0       	ldi	r28, 0x08	; 8
+  d0:	d0 e0       	ldi	r29, 0x00	; 0
+  d2:	11 23       	and	r17, r17
+  d4:	14 f4       	brge	.+4      	; 0xda <WriteSerialSingle+0x14>
+  d6:	28 9a       	sbi	0x05, 0	; 5
+  d8:	01 c0       	rjmp	.+2      	; 0xdc <WriteSerialSingle+0x16>
+  da:	28 98       	cbi	0x05, 0	; 5
+  dc:	0e 94 57 00 	call	0xae	; 0xae <PulseClock>
+  e0:	11 0f       	add	r17, r17
+  e2:	21 97       	sbiw	r28, 0x01	; 1
+  e4:	b1 f7       	brne	.-20     	; 0xd2 <WriteSerialSingle+0xc>
+  e6:	df 91       	pop	r29
+  e8:	cf 91       	pop	r28
+  ea:	1f 91       	pop	r17
+  ec:	08 95       	ret
 
-00000116 <JoyStickRight>:
- 116:	86 b1       	in	r24, 0x06	; 6
- 118:	86 95       	lsr	r24
- 11a:	86 95       	lsr	r24
- 11c:	86 95       	lsr	r24
- 11e:	91 e0       	ldi	r25, 0x01	; 1
- 120:	89 27       	eor	r24, r25
- 122:	81 70       	andi	r24, 0x01	; 1
- 124:	90 e0       	ldi	r25, 0x00	; 0
- 126:	08 95       	ret
+000000ee <main>:
 
-00000128 <JoyStickPress>:
- 128:	86 b1       	in	r24, 0x06	; 6
- 12a:	82 95       	swap	r24
- 12c:	8f 70       	andi	r24, 0x0F	; 15
- 12e:	91 e0       	ldi	r25, 0x01	; 1
- 130:	89 27       	eor	r24, r25
- 132:	81 70       	andi	r24, 0x01	; 1
- 134:	90 e0       	ldi	r25, 0x00	; 0
- 136:	08 95       	ret
+int gameMode = MAIN_MENU;
 
-00000138 <ReadJoystickState>:
- 138:	cf 93       	push	r28
- 13a:	df 93       	push	r29
- 13c:	ec 01       	movw	r28, r24
- 13e:	0e 94 76 00 	call	0xec	; 0xec <JoyStickUp>
- 142:	89 2b       	or	r24, r25
- 144:	19 f0       	breq	.+6      	; 0x14c <ReadJoystickState+0x14>
- 146:	19 82       	std	Y+1, r1	; 0x01
- 148:	18 82       	st	Y, r1
- 14a:	28 c0       	rjmp	.+80     	; 0x19c <ReadJoystickState+0x64>
- 14c:	0e 94 7c 00 	call	0xf8	; 0xf8 <JoyStickLeft>
- 150:	89 2b       	or	r24, r25
- 152:	29 f0       	breq	.+10     	; 0x15e <ReadJoystickState+0x26>
- 154:	81 e0       	ldi	r24, 0x01	; 1
- 156:	90 e0       	ldi	r25, 0x00	; 0
- 158:	99 83       	std	Y+1, r25	; 0x01
- 15a:	88 83       	st	Y, r24
- 15c:	1f c0       	rjmp	.+62     	; 0x19c <ReadJoystickState+0x64>
- 15e:	0e 94 83 00 	call	0x106	; 0x106 <JoyStickDown>
- 162:	89 2b       	or	r24, r25
- 164:	29 f0       	breq	.+10     	; 0x170 <ReadJoystickState+0x38>
- 166:	82 e0       	ldi	r24, 0x02	; 2
- 168:	90 e0       	ldi	r25, 0x00	; 0
- 16a:	99 83       	std	Y+1, r25	; 0x01
- 16c:	88 83       	st	Y, r24
- 16e:	16 c0       	rjmp	.+44     	; 0x19c <ReadJoystickState+0x64>
- 170:	0e 94 8b 00 	call	0x116	; 0x116 <JoyStickRight>
- 174:	89 2b       	or	r24, r25
- 176:	29 f0       	breq	.+10     	; 0x182 <ReadJoystickState+0x4a>
- 178:	83 e0       	ldi	r24, 0x03	; 3
- 17a:	90 e0       	ldi	r25, 0x00	; 0
- 17c:	99 83       	std	Y+1, r25	; 0x01
- 17e:	88 83       	st	Y, r24
- 180:	0d c0       	rjmp	.+26     	; 0x19c <ReadJoystickState+0x64>
- 182:	0e 94 94 00 	call	0x128	; 0x128 <JoyStickPress>
- 186:	89 2b       	or	r24, r25
- 188:	29 f0       	breq	.+10     	; 0x194 <ReadJoystickState+0x5c>
- 18a:	84 e0       	ldi	r24, 0x04	; 4
- 18c:	90 e0       	ldi	r25, 0x00	; 0
- 18e:	99 83       	std	Y+1, r25	; 0x01
- 190:	88 83       	st	Y, r24
- 192:	04 c0       	rjmp	.+8      	; 0x19c <ReadJoystickState+0x64>
- 194:	85 e0       	ldi	r24, 0x05	; 5
- 196:	90 e0       	ldi	r25, 0x00	; 0
- 198:	99 83       	std	Y+1, r25	; 0x01
- 19a:	88 83       	st	Y, r24
- 19c:	df 91       	pop	r29
- 19e:	cf 91       	pop	r28
- 1a0:	08 95       	ret
-
-000001a2 <ClearPin>:
-/************************************************************************/
-/*  Purpose: Function to clear a rgb pins values so when they are set	*/
-/*			by or'ing if there is a need for a 0 it will be set properly*/
-/************************************************************************/
-void ClearPin(struct LedPin* pin)
+int main(void)
 {
- 1a2:	fc 01       	movw	r30, r24
- 1a4:	9c 01       	movw	r18, r24
- 1a6:	2a 5f       	subi	r18, 0xFA	; 250
- 1a8:	3f 4f       	sbci	r19, 0xFF	; 255
-	for(int i = 0; i < 3; i++)
-	{
-		switch(pin->ports[i])
- 1aa:	81 91       	ld	r24, Z+
- 1ac:	91 91       	ld	r25, Z+
- 1ae:	81 30       	cpi	r24, 0x01	; 1
- 1b0:	91 05       	cpc	r25, r1
- 1b2:	41 f0       	breq	.+16     	; 0x1c4 <ClearPin+0x22>
- 1b4:	82 30       	cpi	r24, 0x02	; 2
- 1b6:	91 05       	cpc	r25, r1
- 1b8:	41 f0       	breq	.+16     	; 0x1ca <ClearPin+0x28>
- 1ba:	89 2b       	or	r24, r25
- 1bc:	41 f4       	brne	.+16     	; 0x1ce <ClearPin+0x2c>
+	InitializeRegister();
+  ee:	0e 94 53 00 	call	0xa6	; 0xa6 <InitializeRegister>
+	int byteS[8][8];
+	//int byteTwo[8];
+
+	while(1)
+	{		
+		for(short i = 0; i < 65536; i++)
+  f2:	c0 e0       	ldi	r28, 0x00	; 0
+  f4:	d0 e0       	ldi	r29, 0x00	; 0
 		{
-			case B:
-			PORTB &= (0 << pin->regLocs[i]);				//Ands each register of the rgb pin in port b with 0 (thus ensuring that bit will be 0)
- 1be:	85 b1       	in	r24, 0x05	; 5
- 1c0:	15 b8       	out	0x05, r1	; 5
-			break;
- 1c2:	05 c0       	rjmp	.+10     	; 0x1ce <ClearPin+0x2c>
-			case C:
-			PORTC &= (0 << pin->regLocs[i]);				//Ands each register of the rgb pin in port c with 0 (thus ensuring that bit will be 0)
- 1c4:	88 b1       	in	r24, 0x08	; 8
- 1c6:	18 b8       	out	0x08, r1	; 8
-			break;
- 1c8:	02 c0       	rjmp	.+4      	; 0x1ce <ClearPin+0x2c>
-			case D:
-			PORTD &= (0 << pin->regLocs[i]);				//Ands each register of the rgb pin in port d with 0 (thus ensuring that bit will be 0)
- 1ca:	8b b1       	in	r24, 0x0b	; 11
- 1cc:	1b b8       	out	0x0b, r1	; 11
-/*  Purpose: Function to clear a rgb pins values so when they are set	*/
-/*			by or'ing if there is a need for a 0 it will be set properly*/
-/************************************************************************/
-void ClearPin(struct LedPin* pin)
-{
-	for(int i = 0; i < 3; i++)
- 1ce:	e2 17       	cp	r30, r18
- 1d0:	f3 07       	cpc	r31, r19
- 1d2:	59 f7       	brne	.-42     	; 0x1aa <ClearPin+0x8>
-			break;
-			default:
-			break;
-		}
-	}
-}
- 1d4:	08 95       	ret
-
-000001d6 <SetColor>:
-/************************************************************************/
-/*  Purpose: Function to set the color of a rgb pin. Takes a pointer to */
-/*			to the pin struct, and the digital rgb values				*/
-/************************************************************************/
-void SetColor(struct LedPin*  lightPin, int r, int g, int b)
-{
- 1d6:	cf 92       	push	r12
- 1d8:	df 92       	push	r13
- 1da:	ef 92       	push	r14
- 1dc:	ff 92       	push	r15
- 1de:	0f 93       	push	r16
- 1e0:	1f 93       	push	r17
- 1e2:	cf 93       	push	r28
- 1e4:	df 93       	push	r29
- 1e6:	ec 01       	movw	r28, r24
- 1e8:	6b 01       	movw	r12, r22
- 1ea:	7a 01       	movw	r14, r20
- 1ec:	89 01       	movw	r16, r18
+			Data[1] = i & 0xFF;
+			Data[0] = i >> 8;
+			WriteSerialSingle(Data[1]);
+  f6:	8c 2f       	mov	r24, r28
+  f8:	0e 94 63 00 	call	0xc6	; 0xc6 <WriteSerialSingle>
+			WriteSerialSingle(Data[0]);
+  fc:	8d 2f       	mov	r24, r29
+  fe:	0e 94 63 00 	call	0xc6	; 0xc6 <WriteSerialSingle>
+			LatchIn();
+ 102:	0e 94 5a 00 	call	0xb4	; 0xb4 <LatchIn>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 1ee:	8f e3       	ldi	r24, 0x3F	; 63
- 1f0:	9f e1       	ldi	r25, 0x1F	; 31
- 1f2:	01 97       	sbiw	r24, 0x01	; 1
- 1f4:	f1 f7       	brne	.-4      	; 0x1f2 <SetColor+0x1c>
- 1f6:	00 c0       	rjmp	.+0      	; 0x1f8 <SetColor+0x22>
- 1f8:	00 00       	nop
-	_delay_ms(2);													//Delay 2 ms to show the color
-	ClearPin(lightPin);												//First we make all of the pin values that make up the rgb pin 0 so that when we or it if it is 1 it will set it to 1 if it is 0 it will stay 0
- 1fa:	ce 01       	movw	r24, r28
- 1fc:	0e 94 d1 00 	call	0x1a2	; 0x1a2 <ClearPin>
-	ShiftPort((lightPin)->ports[0], (lightPin)->regLocs[0], r);		//Shift the r value passed into this function into the register bit of the red pin
- 200:	6e 81       	ldd	r22, Y+6	; 0x06
- 202:	7f 81       	ldd	r23, Y+7	; 0x07
- 204:	a6 01       	movw	r20, r12
- 206:	88 81       	ld	r24, Y
- 208:	99 81       	ldd	r25, Y+1	; 0x01
- 20a:	0e 94 53 00 	call	0xa6	; 0xa6 <ShiftPort>
-	ShiftPort((lightPin)->ports[1], (lightPin)->regLocs[1], g);		//Shift the g value passed into this function into the register bit of the green pin
- 20e:	68 85       	ldd	r22, Y+8	; 0x08
- 210:	79 85       	ldd	r23, Y+9	; 0x09
- 212:	a7 01       	movw	r20, r14
- 214:	8a 81       	ldd	r24, Y+2	; 0x02
- 216:	9b 81       	ldd	r25, Y+3	; 0x03
- 218:	0e 94 53 00 	call	0xa6	; 0xa6 <ShiftPort>
-	ShiftPort((lightPin)->ports[2], (lightPin)->regLocs[2], b);		//Shift the b value passed into this function into the register bit of the blue pin
- 21c:	6a 85       	ldd	r22, Y+10	; 0x0a
- 21e:	7b 85       	ldd	r23, Y+11	; 0x0b
- 220:	a8 01       	movw	r20, r16
- 222:	8c 81       	ldd	r24, Y+4	; 0x04
- 224:	9d 81       	ldd	r25, Y+5	; 0x05
- 226:	0e 94 53 00 	call	0xa6	; 0xa6 <ShiftPort>
-}
- 22a:	df 91       	pop	r29
- 22c:	cf 91       	pop	r28
- 22e:	1f 91       	pop	r17
- 230:	0f 91       	pop	r16
- 232:	ff 90       	pop	r15
- 234:	ef 90       	pop	r14
- 236:	df 90       	pop	r13
- 238:	cf 90       	pop	r12
- 23a:	08 95       	ret
+ 106:	2f ef       	ldi	r18, 0xFF	; 255
+ 108:	81 ee       	ldi	r24, 0xE1	; 225
+ 10a:	94 e0       	ldi	r25, 0x04	; 4
+ 10c:	21 50       	subi	r18, 0x01	; 1
+ 10e:	80 40       	sbci	r24, 0x00	; 0
+ 110:	90 40       	sbci	r25, 0x00	; 0
+ 112:	e1 f7       	brne	.-8      	; 0x10c <main+0x1e>
+ 114:	00 c0       	rjmp	.+0      	; 0x116 <main+0x28>
+ 116:	00 00       	nop
+ 118:	21 96       	adiw	r28, 0x01	; 1
+ 11a:	ed cf       	rjmp	.-38     	; 0xf6 <main+0x8>
 
-0000023c <MainMenu>:
-    }
-}
+0000011c <_exit>:
+ 11c:	f8 94       	cli
 
-void MainMenu()
-{
-	switch(joystickState)
- 23c:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__data_start>
- 240:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__data_start+0x1>
- 244:	82 30       	cpi	r24, 0x02	; 2
- 246:	91 05       	cpc	r25, r1
- 248:	19 f1       	breq	.+70     	; 0x290 <MainMenu+0x54>
- 24a:	2c f4       	brge	.+10     	; 0x256 <MainMenu+0x1a>
- 24c:	00 97       	sbiw	r24, 0x00	; 0
- 24e:	51 f0       	breq	.+20     	; 0x264 <MainMenu+0x28>
- 250:	01 97       	sbiw	r24, 0x01	; 1
- 252:	99 f0       	breq	.+38     	; 0x27a <MainMenu+0x3e>
- 254:	08 95       	ret
- 256:	84 30       	cpi	r24, 0x04	; 4
- 258:	91 05       	cpc	r25, r1
- 25a:	81 f1       	breq	.+96     	; 0x2bc <MainMenu+0x80>
- 25c:	24 f1       	brlt	.+72     	; 0x2a6 <MainMenu+0x6a>
- 25e:	05 97       	sbiw	r24, 0x05	; 5
- 260:	a1 f1       	breq	.+104    	; 0x2ca <MainMenu+0x8e>
- 262:	08 95       	ret
-	{
-		case UP:
-		SetColor(&rgbPin, 1, 0, 1);								//Sets pin to be green
- 264:	21 e0       	ldi	r18, 0x01	; 1
- 266:	30 e0       	ldi	r19, 0x00	; 0
- 268:	40 e0       	ldi	r20, 0x00	; 0
- 26a:	50 e0       	ldi	r21, 0x00	; 0
- 26c:	61 e0       	ldi	r22, 0x01	; 1
- 26e:	70 e0       	ldi	r23, 0x00	; 0
- 270:	84 e0       	ldi	r24, 0x04	; 4
- 272:	91 e0       	ldi	r25, 0x01	; 1
- 274:	0e 94 eb 00 	call	0x1d6	; 0x1d6 <SetColor>
-		break;
- 278:	08 95       	ret
-		case LEFT:
-		SetColor(&rgbPin, 0, 1, 1);								//Sets pin to be red
- 27a:	21 e0       	ldi	r18, 0x01	; 1
- 27c:	30 e0       	ldi	r19, 0x00	; 0
- 27e:	41 e0       	ldi	r20, 0x01	; 1
- 280:	50 e0       	ldi	r21, 0x00	; 0
- 282:	60 e0       	ldi	r22, 0x00	; 0
- 284:	70 e0       	ldi	r23, 0x00	; 0
- 286:	84 e0       	ldi	r24, 0x04	; 4
- 288:	91 e0       	ldi	r25, 0x01	; 1
- 28a:	0e 94 eb 00 	call	0x1d6	; 0x1d6 <SetColor>
-		break;
- 28e:	08 95       	ret
-		case DOWN:
-		SetColor(&rgbPin, 1, 1, 0);								//Sets pin to be blue
- 290:	20 e0       	ldi	r18, 0x00	; 0
- 292:	30 e0       	ldi	r19, 0x00	; 0
- 294:	41 e0       	ldi	r20, 0x01	; 1
- 296:	50 e0       	ldi	r21, 0x00	; 0
- 298:	61 e0       	ldi	r22, 0x01	; 1
- 29a:	70 e0       	ldi	r23, 0x00	; 0
- 29c:	84 e0       	ldi	r24, 0x04	; 4
- 29e:	91 e0       	ldi	r25, 0x01	; 1
- 2a0:	0e 94 eb 00 	call	0x1d6	; 0x1d6 <SetColor>
-		break;
- 2a4:	08 95       	ret
-		case RIGHT:
-		SetColor(&rgbPin, 0, 0, 1);								//Sets pin to be yellow
- 2a6:	21 e0       	ldi	r18, 0x01	; 1
- 2a8:	30 e0       	ldi	r19, 0x00	; 0
- 2aa:	40 e0       	ldi	r20, 0x00	; 0
- 2ac:	50 e0       	ldi	r21, 0x00	; 0
- 2ae:	60 e0       	ldi	r22, 0x00	; 0
- 2b0:	70 e0       	ldi	r23, 0x00	; 0
- 2b2:	84 e0       	ldi	r24, 0x04	; 4
- 2b4:	91 e0       	ldi	r25, 0x01	; 1
- 2b6:	0e 94 eb 00 	call	0x1d6	; 0x1d6 <SetColor>
-		break;
- 2ba:	08 95       	ret
-		case PRESSED:
-		
-		gameMode = GAME1;
- 2bc:	81 e0       	ldi	r24, 0x01	; 1
- 2be:	90 e0       	ldi	r25, 0x00	; 0
- 2c0:	90 93 03 01 	sts	0x0103, r25	; 0x800103 <__data_end+0x1>
- 2c4:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <__data_end>
-		break;
- 2c8:	08 95       	ret
-		case RELEASED:
-		SetColor(&rgbPin, 0, 0, 0);		//Sets pin to be white
- 2ca:	20 e0       	ldi	r18, 0x00	; 0
- 2cc:	30 e0       	ldi	r19, 0x00	; 0
- 2ce:	40 e0       	ldi	r20, 0x00	; 0
- 2d0:	50 e0       	ldi	r21, 0x00	; 0
- 2d2:	60 e0       	ldi	r22, 0x00	; 0
- 2d4:	70 e0       	ldi	r23, 0x00	; 0
- 2d6:	84 e0       	ldi	r24, 0x04	; 4
- 2d8:	91 e0       	ldi	r25, 0x01	; 1
- 2da:	0e 94 eb 00 	call	0x1d6	; 0x1d6 <SetColor>
- 2de:	08 95       	ret
-
-000002e0 <main>:
-
-int gameMode = MAIN_MENU;
-
-int main(void)
-{
-	DDRB = (1 << DDB1) | (1 << DDB2) | (1 << DDB3); //Sets the rgb pins to output
- 2e0:	8e e0       	ldi	r24, 0x0E	; 14
- 2e2:	84 b9       	out	0x04, r24	; 4
-	DDRD = (1 << DDD6);
- 2e4:	80 e4       	ldi	r24, 0x40	; 64
- 2e6:	8a b9       	out	0x0a, r24	; 10
-/*				ports and register locations, takes a pointer to the	*/
-/*				struct then all the needed values						*/
-/************************************************************************/
-void InitializeLed(struct LedPin * pin, int port1, int port2, int port3, int regLoc1, int regLoc2, int regLoc3)
-{
-	pin->ports[0] = port1;
- 2e8:	e4 e0       	ldi	r30, 0x04	; 4
- 2ea:	f1 e0       	ldi	r31, 0x01	; 1
- 2ec:	11 82       	std	Z+1, r1	; 0x01
- 2ee:	10 82       	st	Z, r1
-	pin->ports[1] = port2;
- 2f0:	13 82       	std	Z+3, r1	; 0x03
- 2f2:	12 82       	std	Z+2, r1	; 0x02
-	pin->ports[2] = port3;
- 2f4:	15 82       	std	Z+5, r1	; 0x05
- 2f6:	14 82       	std	Z+4, r1	; 0x04
-
-	pin->regLocs[0] = regLoc1;
- 2f8:	81 e0       	ldi	r24, 0x01	; 1
- 2fa:	90 e0       	ldi	r25, 0x00	; 0
- 2fc:	97 83       	std	Z+7, r25	; 0x07
- 2fe:	86 83       	std	Z+6, r24	; 0x06
-	pin->regLocs[1] = regLoc2;
- 300:	82 e0       	ldi	r24, 0x02	; 2
- 302:	90 e0       	ldi	r25, 0x00	; 0
- 304:	91 87       	std	Z+9, r25	; 0x09
- 306:	80 87       	std	Z+8, r24	; 0x08
-	pin->regLocs[2] = regLoc3;
- 308:	83 e0       	ldi	r24, 0x03	; 3
- 30a:	90 e0       	ldi	r25, 0x00	; 0
- 30c:	93 87       	std	Z+11, r25	; 0x0b
- 30e:	82 87       	std	Z+10, r24	; 0x0a
-	*****************************************************************************/
-
-
-	InitializeLed(&rgbPin, B, B, B, DDB1, DDB2, DDB3);				//Initializes the rgb "pin" to hold the ports and registers of each node it is made of
-
-	DDRC &= ( (0 << DDC0) | (0 << DDC1) | (0 << DDC2) | (0 << DDC3) | (0 << DDC4));		//Sets up the analog inputs to be read digitally as inputs
- 310:	87 b1       	in	r24, 0x07	; 7
- 312:	17 b8       	out	0x07, r1	; 7
-	//PlaySong(&s);
-    /* Replace with your application code */
-    while (1) 
-    {
-
-		ReadJoystickState(&joystickState);
- 314:	80 e0       	ldi	r24, 0x00	; 0
- 316:	91 e0       	ldi	r25, 0x01	; 1
- 318:	0e 94 9c 00 	call	0x138	; 0x138 <ReadJoystickState>
-
-		switch(gameMode)
- 31c:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <__data_end>
- 320:	90 91 03 01 	lds	r25, 0x0103	; 0x800103 <__data_end+0x1>
- 324:	00 97       	sbiw	r24, 0x00	; 0
- 326:	19 f0       	breq	.+6      	; 0x32e <main+0x4e>
- 328:	01 97       	sbiw	r24, 0x01	; 1
- 32a:	21 f0       	breq	.+8      	; 0x334 <main+0x54>
- 32c:	f3 cf       	rjmp	.-26     	; 0x314 <main+0x34>
-		{
-			case MAIN_MENU:
-			MainMenu();
- 32e:	0e 94 1e 01 	call	0x23c	; 0x23c <MainMenu>
-			break;
- 332:	f0 cf       	rjmp	.-32     	; 0x314 <main+0x34>
-			case GAME1:
-			SetColor(&rgbPin, 0, 1, 0);								//Sets pin to be magenta
- 334:	20 e0       	ldi	r18, 0x00	; 0
- 336:	30 e0       	ldi	r19, 0x00	; 0
- 338:	41 e0       	ldi	r20, 0x01	; 1
- 33a:	50 e0       	ldi	r21, 0x00	; 0
- 33c:	60 e0       	ldi	r22, 0x00	; 0
- 33e:	70 e0       	ldi	r23, 0x00	; 0
- 340:	84 e0       	ldi	r24, 0x04	; 4
- 342:	91 e0       	ldi	r25, 0x01	; 1
- 344:	0e 94 eb 00 	call	0x1d6	; 0x1d6 <SetColor>
-			break;
- 348:	e5 cf       	rjmp	.-54     	; 0x314 <main+0x34>
-
-0000034a <_exit>:
- 34a:	f8 94       	cli
-
-0000034c <__stop_program>:
- 34c:	ff cf       	rjmp	.-2      	; 0x34c <__stop_program>
+0000011e <__stop_program>:
+ 11e:	ff cf       	rjmp	.-2      	; 0x11e <__stop_program>

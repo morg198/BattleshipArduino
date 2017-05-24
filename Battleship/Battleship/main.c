@@ -15,6 +15,7 @@
 #include "Music.h"
 #include "CommonFunctions.h"
 #include "Joystick.h"
+#include "ShiftRegisters.h"
 #include "LedPins.h"
 
 
@@ -24,19 +25,23 @@ short joystickState = RELEASED;
 
 struct LedPin rgbPin;
 
+struct LedPin lights[3][3];
+
 void MainMenu();
 
 int gameMode = MAIN_MENU;
 
 int main(void)
 {
-	DDRB = (1 << DDB1) | (1 << DDB2) | (1 << DDB3); //Sets the rgb pins to output
-	DDRD = (1 << DDD6);
+	InitializeRegister();
+	//DDRB = (1 << DDB1) | (1 << DDB2) | (1 << DDB3); //Sets the rgb pins to output
+	//DDRD = (1 << DDD6);
 
 	//struct Song s;
 
 	//CreateYubNub(&s);
 	//CreateSong(&s);
+
 
 	
 
@@ -61,37 +66,61 @@ int main(void)
 	*****************************************************************************/
 
 
-	InitializeLed(&rgbPin, B, B, B, DDB1, DDB2, DDB3);				//Initializes the rgb "pin" to hold the ports and registers of each node it is made of
+	//InitializeLed(&rgbPin, B, B, B, DDB1, DDB2, DDB3);				//Initializes the rgb "pin" to hold the ports and registers of each node it is made of
 
-	DDRC &= ( (0 << DDC0) | (0 << DDC1) | (0 << DDC2) | (0 << DDC3) | (0 << DDC4));		//Sets up the analog inputs to be read digitally as inputs
+	//DDRC &= ( (0 << DDC0) | (0 << DDC1) | (0 << DDC2) | (0 << DDC3) | (0 << DDC4));		//Sets up the analog inputs to be read digitally as inputs
 	//PlaySong(&s);
     /* Replace with your application code */
-    while (1) 
-    {
 
-		ReadJoystickState(&joystickState);
+	uint8_t Data[2];
 
-		switch(gameMode)
+	Data[0] = 0xF2;
+	Data[1] = 0xAB;
+
+	//Data = AB6F
+
+	int byteS[8][8];
+	//int byteTwo[8];
+
+	while(1)
+	{		
+		for(short i = 0; i < 65536; i++)
 		{
-			case MAIN_MENU:
-			MainMenu();
-			break;
-			case GAME1:
-			SetColor(&rgbPin, 0, 1, 0);								//Sets pin to be magenta
-			break;
-			case GAME2:
-			break;
-			case GAME3:
-			break;
-			case GAMEOVER:
-			break;
-			default:
-			break;
+			Data[1] = i & 0xFF;
+			Data[0] = i >> 8;
+			WriteSerialSingle(Data[1]);
+			WriteSerialSingle(Data[0]);
+			LatchIn();
+			_delay_ms(100);
 		}
+	}
 
-		
+    //while (1) 
+    //{
+//
+		//ReadJoystickState(&joystickState);
+//
+		//switch(gameMode)
+		//{
+			//case MAIN_MENU:
+			//MainMenu();
+			//break;
+			//case GAME1:
+			//SetColor(&rgbPin, 0, 1, 0);								//Sets pin to be magenta
+			//break;
+			//case GAME2:
+			//break;
+			//case GAME3:
+			//break;
+			//case GAMEOVER:
+			//break;
+			//default:
+			//break;
+		//}
+//
+		//
 	
-    }
+    //}
 }
 
 void MainMenu()
@@ -120,4 +149,6 @@ void MainMenu()
 		default:
 		break;
 	}
+
+
 }
