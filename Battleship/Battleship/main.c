@@ -25,7 +25,7 @@ short joystickState = RELEASED;
 
 struct LedPin rgbPin;
 
-struct LedPin lights[3][3];
+struct LedPin lights[4][4];
 
 void MainMenu();
 
@@ -34,16 +34,12 @@ int gameMode = MAIN_MENU;
 int main(void)
 {
 	InitializeRegister();
-	//DDRB = (1 << DDB1) | (1 << DDB2) | (1 << DDB3); //Sets the rgb pins to output
 	//DDRD = (1 << DDD6);
 
 	//struct Song s;
 
 	//CreateYubNub(&s);
 	//CreateSong(&s);
-
-
-	
 
 	/*****************************************************************************
 	*	Pseudo Thoughts for parallel arrays
@@ -65,8 +61,13 @@ int main(void)
 	*	
 	*****************************************************************************/
 
-
-	//InitializeLed(&rgbPin, B, B, B, DDB1, DDB2, DDB3);				//Initializes the rgb "pin" to hold the ports and registers of each node it is made of
+	for(int i = 0; i < 4; i++)
+	{
+		for(int j = 0; j < 4; j++)
+		{
+			InitializeLed(&lights[i][j]);				//Initializes the light grid
+		}
+	}
 
 	//DDRC &= ( (0 << DDC0) | (0 << DDC1) | (0 << DDC2) | (0 << DDC3) | (0 << DDC4));		//Sets up the analog inputs to be read digitally as inputs
 	//PlaySong(&s);

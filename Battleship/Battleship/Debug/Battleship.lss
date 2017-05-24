@@ -13,19 +13,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .debug_aranges 00000100  00000000  00000000  000001e4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00001579  00000000  00000000  000002e4  2**0
+  5 .debug_info   000015a7  00000000  00000000  000002e4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000090e  00000000  00000000  0000185d  2**0
+  6 .debug_abbrev 00000931  00000000  00000000  0000188b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000956  00000000  00000000  0000216b  2**0
+  7 .debug_line   0000093c  00000000  00000000  000021bc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000380  00000000  00000000  00002ac4  2**2
+  8 .debug_frame  00000338  00000000  00000000  00002af8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000006d9  00000000  00000000  00002e44  2**0
+  9 .debug_str    000006a1  00000000  00000000  00002e30  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000109d  00000000  00000000  0000351d  2**0
+ 10 .debug_loc    000010c5  00000000  00000000  000034d1  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000108  00000000  00000000  000045ba  2**0
+ 11 .debug_ranges 00000108  00000000  00000000  00004596  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -99,12 +99,12 @@ Disassembly of section .text:
   a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 000000a6 <InitializeRegister>:
-	ShiftPort((lightPin)->ports[2], (lightPin)->regLocs[2], b);		//Shift the b value passed into this function into the register bit of the blue pin
-
-	lightPin->values[0] = r;
-	lightPin->values[0] = g;
-	lightPin->values[0] = b;
-}
+void SetColor(struct LedPin*  lightPin, int r, int g, int b)
+{
+	_delay_ms(2);													//Delay 2 ms to show the color
+	lightPin->values[RED] = r;
+	lightPin->values[GREEN] = g;
+	lightPin->values[BLUE] = b;
   a6:	84 b1       	in	r24, 0x04	; 4
   a8:	87 60       	ori	r24, 0x07	; 7
   aa:	84 b9       	out	0x04, r24	; 4
