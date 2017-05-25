@@ -6,6 +6,8 @@
  */ 
 
  #define F_CPU 16000000UL
+ #define GRIDHEIGHT 4
+ #define GRIDLENGTH 4
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -25,7 +27,7 @@ short joystickState = RELEASED;
 
 struct LedPin rgbPin;
 
-struct LedPin lights[4][4];
+struct LedPin lights[GRIDHEIGHT][GRIDLENGTH];
 
 void MainMenu();
 
@@ -61,9 +63,9 @@ int main(void)
 	*	
 	*****************************************************************************/
 
-	for(int i = 0; i < 4; i++)
+	for(int i = 0; i < GRIDHEIGHT; i++)
 	{
-		for(int j = 0; j < 4; j++)
+		for(int j = 0; GRIDLENGTH < 4; j++)
 		{
 			InitializeLed(&lights[i][j]);				//Initializes the light grid
 		}
