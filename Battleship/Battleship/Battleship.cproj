@@ -131,13 +131,22 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="arraytolong.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="CommonFunctions.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="GLobalDefines.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Joystick.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="LedPins.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="LightsToArrays.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">

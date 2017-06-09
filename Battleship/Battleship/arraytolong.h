@@ -1,13 +1,14 @@
 #ifndef ARRAYTOLONG_H
 #define ARRAYTOLONG_H
 #include <math.h>
+#include "GLobalDefines.h"
 
-long ArrayToLong(short field[GRIDLENGTH][GRIDHEIGHT], short gridLength, short gridHeight)
+unsigned long ArrayToLong(short field[GRIDLENGTH][GRIDHEIGHT], short gridLength, short gridHeight)
 {
-    long longToPush = 0;
-    short totalLength = gridHeight * gridLength;
-    short temp[totalLength];
-    short i = 0, j = 0, k = 0;
+    unsigned long longToPush = 0;
+   unsigned short totalLength = gridHeight * gridLength;
+   unsigned short temp[totalLength];
+    unsigned short i = 0, j = 0, k = 0;
 
     for(i = 0; i < gridHeight; i++)
     {

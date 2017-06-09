@@ -19,7 +19,8 @@ main.d main.o: .././main.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  .././Music.h .././CommonFunctions.h .././Types.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\time.h \
- .././Pitches.h .././Joystick.h .././ShiftRegisters.h .././LedPins.h
+ .././Pitches.h .././Joystick.h .././ShiftRegisters.h .././LedPins.h \
+ .././GLobalDefines.h .././LightsToArrays.h .././arraytolong.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -72,3 +73,9 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 .././ShiftRegisters.h:
 
 .././LedPins.h:
+
+.././GLobalDefines.h:
+
+.././LightsToArrays.h:
+
+.././arraytolong.h:

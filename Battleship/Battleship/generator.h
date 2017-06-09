@@ -1,13 +1,13 @@
 #ifndef GENERATOR_H
 #define GENERATOR_H
-#define GRIDWIDTH  4
-#define GRIDHEIGHT 4
 
-void GenerateShip(short shipLocations[GRIDWIDTH][GRIDHEIGHT]);
-void ZeroGrid(short shipLocations[GRIDWIDTH][GRIDHEIGHT]);
-void GenerateShips(short count, short shipLocations[GRIDWIDTH][GRIDHEIGHT]);
+#include "GLobalDefines.h"
 
-void GenerateShip(short shipLocations[GRIDWIDTH][GRIDHEIGHT])
+void GenerateShip(short shipLocations[GRIDLENGTH][GRIDHEIGHT]);
+void ZeroGrid(short shipLocations[GRIDLENGTH][GRIDHEIGHT]);
+void GenerateShips(short count, short shipLocations[GRIDLENGTH][GRIDHEIGHT]);
+
+void GenerateShip(short shipLocations[GRIDLENGTH][GRIDHEIGHT])
 {
     short shipX = 0, shipY = 0;
     short valid = 0;
@@ -21,7 +21,7 @@ void GenerateShip(short shipLocations[GRIDWIDTH][GRIDHEIGHT])
         while(valid == 0)
         {
             valid = 1;
-            shipX = rand() % GRIDWIDTH;
+            shipX = rand() % GRIDLENGTH;
             shipY = rand() % (GRIDHEIGHT-1);
 
             if(shipLocations[shipX][shipY] == 1 || shipLocations[shipX][shipY + 1] == 1)
@@ -35,7 +35,7 @@ void GenerateShip(short shipLocations[GRIDWIDTH][GRIDHEIGHT])
         while(valid == 0)
         {
             valid = 1;
-            shipX = rand() % (GRIDWIDTH-1);
+            shipX = rand() % (GRIDLENGTH-1);
             shipY = rand() % GRIDHEIGHT;
 
             if(shipLocations[shipX][shipY] == 1 || shipLocations[shipX + 1][shipY] == 1)
@@ -48,18 +48,18 @@ void GenerateShip(short shipLocations[GRIDWIDTH][GRIDHEIGHT])
 
 }
 
-void ZeroGrid(short shipLocations[GRIDWIDTH][GRIDHEIGHT])
+void ZeroGrid(short shipLocations[GRIDLENGTH][GRIDHEIGHT])
 {
     int i, j;
 
     for(i = 0; i < GRIDHEIGHT; i++)
     {
-        for(j = 0; j < GRIDWIDTH; j++)
+        for(j = 0; j < GRIDLENGTH; j++)
             shipLocations[j][i] = 0;
     }
 }
 
-void GenerateShips(short count, short shipLocations[GRIDWIDTH][GRIDHEIGHT])
+void GenerateShips(short count, short shipLocations[GRIDLENGTH][GRIDHEIGHT])
 {
     short i;
     ZeroGrid(shipLocations);

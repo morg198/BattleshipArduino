@@ -118,6 +118,61 @@ void WriteSerialSingle(uint8_t dataByte)
 		}
 }
 
+void WriteS(unsigned long dataByte)
+{
+for(int i = 0; i < 32; i++)
+{
+		//Output the data on the line from the MSB
+		if(dataByte & 0x8000)
+		{
+			//MSB is 1 so set high
+			//DataHigh;
+			CONTROL_PORT |= (1 << DataPin);
+		}
+		else
+		{
+			//DataLow
+			CONTROL_PORT &= ~(1 << DataPin);
+		}
+
+		PulseClock();
+		//_delay_ms(1);
+
+		dataByte = dataByte << 1;		//Brings the next bit to the MSB
+}
+
+}
+
+void TestWrite(short * arr)
+{
+	for(int i = 0; i < 16; i++)
+	{
+		if(i < 12)
+		{
+			if(arr[i] == 0)
+			{
+				//MSB is 1 so set high
+				//DataHigh;
+				CONTROL_PORT |= (1 << DataPin);
+			}
+			else
+			{
+				//DataLow
+				CONTROL_PORT &= ~(1 << DataPin);
+			}
+
+		}
+		else
+		{
+		CONTROL_PORT &= ~(1 << DataPin);
+		}
+
+		PulseClock();
+	}
+
+
+}
+
 void Example()
 {
 	////Done before loop

@@ -8,17 +8,16 @@
 
 #ifndef LEDPINS_H_
 #define LEDPINS_H_
+#include "GLobalDefines.h"
 
 #define RED 0
 #define GREEN 1
 #define BLUE 2
 
-#define ON 0
-#define OFF 1
 
 struct LedPin
 {
-	int values[3];
+	unsigned int values[3];
 };
 
 /************************************************************************/
@@ -51,7 +50,7 @@ void ClearPin(struct LedPin* pin)
 /************************************************************************/
 void SetColor(struct LedPin*  lightPin, int r, int g, int b)
 {
-	_delay_ms(2);													//Delay 2 ms to show the color
+//	_delay_ms(2);													//Delay 2 ms to show the color
 	lightPin->values[RED] = r;
 	lightPin->values[GREEN] = g;
 	lightPin->values[BLUE] = b;
